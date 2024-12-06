@@ -16,7 +16,7 @@ Flappy Cube Game is a simple yet engaging browser-based game inspired by the cla
 The WebGL Flappy Cube game is a 3D interactive experience where a cube flies through an obstacle course, avoiding collisions and accumulating points. The objective is to achieve the highest score possible without hitting obstacles or the ground.
 
 ## Features
-- **3D Graphics**: Built using Three.js for enhanced visuals.
+- **2D Graphics**: Built using Three.js for enhanced visuals.
 - **Dynamic Obstacles**: Randomly positioned gaps to increase difficulty.
 - **Responsive Controls**: Smooth interactions with keyboard inputs.
 - **Scoring System**: Tracks the player's score and displays encouraging messages.
@@ -58,7 +58,7 @@ WebGL-Flappy-Cube/
 └── game.js  
 
 - **index.html**: Sets up the game canvas and scoreboard.
-- **three.min.js**: Provides Three.js functionality for rendering 3D graphics.
+- **three.min.js**: Provides Three.js functionality for rendering graphics.
 - **keyboard.js**: Manages keyboard inputs for controlling the cube.
 - **game.js**: Contains the core logic, including obstacle movement, scoring, and collision detection.
 
