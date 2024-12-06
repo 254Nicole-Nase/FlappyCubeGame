@@ -285,51 +285,57 @@ function moveObstacles(){
 }
 
 
-
-
-//cube movement
-function cubeUpdate(){
-	// fly up if F key is pressed
+function waitStart(){
 	if(Key.isDown(Key.F)){
-		cubeSpeedY = -cubeFlySpeedY;
-	}
-	
-    // gravity effect on cube
-	cube.position.y -= Math.ceil(deltaTime*cubeSpeedY+g*deltaTime*deltaTime/2);
-	cubeSpeedY += g*deltaTime;
-	
-	if(cube.position.y < -fieldHeight/2+cubeSize/2){
-		gameOverFun();
-		cubeDied = true;
-		cube.position.y = -fieldHeight/2+cubeSize/2;
-	}
-	
-	if(cube.position.y > fieldHeight/2-cubeSize/2){
-		cube.position.y = fieldHeight/2-cubeSize/2;
-		cubeSpeedY = 0;
+		gameStarted = true;
 	}
 }
 
-
-//cube collisions
-function cubeFall(){
-	
-	cube.position.y -= Math.ceil(deltaTime*cubeSpeedY+g*deltaTime*deltaTime/2);
-	cubeSpeedY += g*deltaTime;
-	
-	if(cube.position.y < -fieldHeight/2+cubeSize/2){
-		cube.position.y = -fieldHeight/2+cubeSize/2;
-		cubeDied = true;
-	}
-	
-	for(var i=0; i<obstacleContainer.length; i++){
-		var obstacle = obstacleContainer[i];
-		if(cube.position.x < obstacle.position.x + obstacleWidth/2 + cubeSize/3
-			&& cube.position.x > obstacle.position.x - obstacleWidth/2 - cubeSize/3
-			&& cube.position.y < obstacle.position.y - interspace/2 + cubeSize/2){
-				cube.position.y = obstacle.position.y - interspace/2 + cubeSize/2;
-				cubeDied = true;
-				break;
+/*
+ * waitReStart(): wait restart game after cube died
+*/
+function waitReStart(){
+	if(Key.isDown(Key.F)){
+		// re-init the cube color/position and obstacles
+		cube.position.y = 0;
+		cube.material.color.setHex(0xb22222);
+		
+		// reset the positions of obstacles
+		//-----------------------------------
+		// get the most left obstacle's position
+		var minPositionX = 10000;
+		for(var i=0; i<obstacleContainer.length; i++){
+			var obstacle = obstacleContainer[i];
+			if(obstacle.position.x < minPositionX){
+				minPositionX = obstacle.position.x;
 			}
+		}
+		// all the obstacle move to right
+		for(var i=0; i<obstacleContainer.length; i++){
+			var obstacle = obstacleContainer[i];
+			obstacle.position.x += 0 - minPositionX;
+			// set the height of obstacle
+			obstacle.position.y = (Math.random()*2 - 1) * 0.9 * (fieldHeight/2 - interspace/2);
+		}
+		// move the obstacle
+		movingSpeed = 80;
+		// reset flags
+		gameOver = false;
+		cubeDied = false;
+		// reset score
+		score = 0;
+		document.getElementById("score").innerHTML = score;	
+		// reset message
+		document.getElementById("message").innerHTML = "Come on!";
 	}
+}
+/*
+ * gameOverFun(): called when game over detected
+*/
+function gameOverFun(){
+	gameOver = true;
+	cubeSpeedY = 0;
+	movingSpeed = 0;
+	document.getElementById("message").innerHTML = "Game Over";
+	cube.material.color.setHex(0x8b8989);
 }
