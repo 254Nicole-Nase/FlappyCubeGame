@@ -266,3 +266,57 @@ function moveObstacles(){
 }
 
 
+function waitStart(){
+	if(Key.isDown(Key.F)){
+		gameStarted = true;
+	}
+}
+
+/*
+ * waitReStart(): wait restart game after cube died
+*/
+function waitReStart(){
+	if(Key.isDown(Key.F)){
+		// re-init the cube color/position and obstacles
+		cube.position.y = 0;
+		cube.material.color.setHex(0xb22222);
+		
+		// reset the positions of obstacles
+		//-----------------------------------
+		// get the most left obstacle's position
+		var minPositionX = 10000;
+		for(var i=0; i<obstacleContainer.length; i++){
+			var obstacle = obstacleContainer[i];
+			if(obstacle.position.x < minPositionX){
+				minPositionX = obstacle.position.x;
+			}
+		}
+		// all the obstacle move to right
+		for(var i=0; i<obstacleContainer.length; i++){
+			var obstacle = obstacleContainer[i];
+			obstacle.position.x += 0 - minPositionX;
+			// set the height of obstacle
+			obstacle.position.y = (Math.random()*2 - 1) * 0.9 * (fieldHeight/2 - interspace/2);
+		}
+		// move the obstacle
+		movingSpeed = 80;
+		// reset flags
+		gameOver = false;
+		cubeDied = false;
+		// reset score
+		score = 0;
+		document.getElementById("score").innerHTML = score;	
+		// reset message
+		document.getElementById("message").innerHTML = "Come on!";
+	}
+}
+/*
+ * gameOverFun(): called when game over detected
+*/
+function gameOverFun(){
+	gameOver = true;
+	cubeSpeedY = 0;
+	movingSpeed = 0;
+	document.getElementById("message").innerHTML = "Game Over";
+	cube.material.color.setHex(0x8b8989);
+}
