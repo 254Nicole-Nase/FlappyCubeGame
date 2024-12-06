@@ -1,4 +1,3 @@
-=======
 // Flappy Cube with Three.JS
 
 // scene object variables
