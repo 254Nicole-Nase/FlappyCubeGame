@@ -149,15 +149,34 @@ function createScene(){
 	scene.add( directionalLight );
 }
 
+function draw(){
+	deltaTime = clock.getDelta();
+	// draw THREE.js scene
+	renderer.render(scene, camera);
+	requestAnimationFrame(draw);
 
+	// process game logic
+	if(!gameStarted){
+		waitStart();
+		createCoins();
+		checkCoinCollection();
+	}else{
+		if(!gameOver){
+			moveObstacles();
+			cubeUpdate();
+			checkCoinCollection();
 
-
-
-
-
-
-
-
+		}
+		else{
+			if(cubeDied){
+				waitReStart();
+			}
+			else{
+				cubeFall();
+			}
+		}
+	}
+}
 
 	// Obstacles
 function initObstacles(){
