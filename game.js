@@ -266,3 +266,51 @@ function moveObstacles(){
 }
 
 
+
+
+//cube movement
+function cubeUpdate(){
+	// fly up if F key is pressed
+	if(Key.isDown(Key.F)){
+		cubeSpeedY = -cubeFlySpeedY;
+	}
+	
+    // gravity effect on cube
+	cube.position.y -= Math.ceil(deltaTime*cubeSpeedY+g*deltaTime*deltaTime/2);
+	cubeSpeedY += g*deltaTime;
+	
+	if(cube.position.y < -fieldHeight/2+cubeSize/2){
+		gameOverFun();
+		cubeDied = true;
+		cube.position.y = -fieldHeight/2+cubeSize/2;
+	}
+	
+	if(cube.position.y > fieldHeight/2-cubeSize/2){
+		cube.position.y = fieldHeight/2-cubeSize/2;
+		cubeSpeedY = 0;
+	}
+}
+
+
+//cube collisions
+function cubeFall(){
+	
+	cube.position.y -= Math.ceil(deltaTime*cubeSpeedY+g*deltaTime*deltaTime/2);
+	cubeSpeedY += g*deltaTime;
+	
+	if(cube.position.y < -fieldHeight/2+cubeSize/2){
+		cube.position.y = -fieldHeight/2+cubeSize/2;
+		cubeDied = true;
+	}
+	
+	for(var i=0; i<obstacleContainer.length; i++){
+		var obstacle = obstacleContainer[i];
+		if(cube.position.x < obstacle.position.x + obstacleWidth/2 + cubeSize/3
+			&& cube.position.x > obstacle.position.x - obstacleWidth/2 - cubeSize/3
+			&& cube.position.y < obstacle.position.y - interspace/2 + cubeSize/2){
+				cube.position.y = obstacle.position.y - interspace/2 + cubeSize/2;
+				cubeDied = true;
+				break;
+			}
+	}
+}
